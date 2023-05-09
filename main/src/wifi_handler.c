@@ -62,10 +62,10 @@ void init_wifi_station() {
 
   EventBits_t event_bits = xEventGroupWaitBits(g_wifi_event_group, WIFI_CONNECTED_FLAG, pdFALSE, pdFALSE, portMAX_DELAY);
   if (event_bits & WIFI_CONNECTED_FLAG) {
-    ESP_LOGI(TAG, "Connected to Wifi AP. SSID: %d. Password: %s", WIFI_AP_SSID, WIFI_AP_PASSWORD);
+    ESP_LOGI(TAG, "Connected to Wifi AP. SSID: %s. Password: %s", WIFI_AP_SSID, WIFI_AP_PASSWORD);
     xEventGroupClearBits(g_wifi_event_group, WIFI_CONNECTED_FLAG);
   } else {
-    ESP_LOGE("Failed to connect to Wifi AP. SSID: %d. Password: %s", WIFI_AP_SSID, WIFI_AP_PASSWORD);
+    ESP_LOGE("Failed to connect to Wifi AP. SSID: %s. Password: %s", WIFI_AP_SSID, WIFI_AP_PASSWORD);
   }
   ESP_LOGI(TAG, "Wifi station is initialized");
 }
@@ -83,7 +83,7 @@ static void handle_wifi_events(void* arg, esp_event_base_t event_base, int32_t e
 
       case WIFI_EVENT_STA_DISCONNECTED:
         ESP_LOGW(TAG, "Wifi disconnected");
-        ESP_LOGI(TAG, "Reconnecting to Wifi AP");
+        ESP_LOGI(TAG, "Reconnecting to Wifi AP. SSID: %s. Password: %s", WIFI_AP_SSID, WIFI_AP_PASSWORD);
         ESP_ERROR_CHECK(esp_wifi_connect());
         break;
     }
